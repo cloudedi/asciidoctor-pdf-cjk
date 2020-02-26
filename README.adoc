@@ -1,0 +1,13 @@
+= 从asciidoc生成PDF文件
+
+使用org.asciidoctor.maven插件生成pdf，解决中文乱码问题
+
+== 用法
+
+*下载代码*
+
+ git clone https://github.com/cloudedi/asciidoctor-pdf-cjk.git
+
+将创建好的asciidoc文件放在asciidoctor-pdf-cjk文件夹下的src/docs/asciidoc(Windows系统下为src\docs\asciidoc)目录，执行构建命令
+
+ mvn

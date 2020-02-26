@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.asciidoctor.maven</groupId>
+    <artifactId>asciidoctor-pdf-cjk</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Asciidoctor生成支持中文的PDF</name>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
+        <asciidoctorj.version>2.2.0</asciidoctorj.version>
+        <asciidoctorj.pdf.version>1.5.0-rc.3</asciidoctorj.pdf.version>
+        <jruby.version>9.2.9.0</jruby.version>
+        <pdf.cjk.version>0.1.3</pdf.cjk.version>
+        <pdf.cjk.kaigen.version>0.1.1</pdf.cjk.kaigen.version>
+    </properties>
+
+    <build>
+        <defaultGoal>process-resources</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor.maven.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-pdf</artifactId>
+                        <version>${asciidoctorj.pdf.version}</version>
+                    </dependency>
+                    <!-- Comment this section to use the default jruby artifact provided by the plugin -->
+                    <dependency>
+                        <groupId>org.jruby</groupId>
+                        <artifactId>jruby-complete</artifactId>
+                        <version>${jruby.version}</version>
+                    </dependency>
+                    <!-- Comment this section to use the default AsciidoctorJ artifact provided by the plugin -->
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj</artifactId>
+                        <version>${asciidoctorj.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>generate-pdf-cjk-zh_CN-doc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>pdf</backend>
+                            <sourceDirectory>src/docs/asciidoc</sourceDirectory>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <attributes>
+                                <allow-uri-read/>
+                                <icons>font</icons>
+                                <pagenums/>
+                                <toc/>
+                                <idprefix/>
+                                <idseparator>-</idseparator>
+                                <!-- Fixes line wraps formatting inserting zero-width spaces (ZWSP) before CJ characters -->
+                                <scripts>cjk</scripts>
+                                <!-- Set KaiGen Gothic Chinese theme -->
+                                <pdf-style>KaiGenGothicCN</pdf-style>
+                                <pdf-stylesdir>${basedir}/src/themes</pdf-stylesdir>
+                                <pdf-fontsdir>${basedir}/src/fonts</pdf-fontsdir>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
